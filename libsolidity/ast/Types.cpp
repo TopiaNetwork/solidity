@@ -3076,6 +3076,10 @@ string FunctionType::richIdentifier() const
 	case Kind::ABIEncodeWithSignature: id += "abiencodewithsignature"; break;
 	case Kind::ABIDecode: id += "abidecode"; break;
 	case Kind::MetaType: id += "metatype"; break;
+	case Kind::DBCREATE: id += "dbcreate"; break;
+	case Kind::DBQUERY: id += "dbquery"; break;
+	case Kind::DBDELETE: id += "dbdelete"; break;
+	case Kind::DBUPDATE: id += "dbupdate"; break;
 	}
 	id += "_" + stateMutabilityToString(m_stateMutability);
 	id += identifierList(m_parameterTypes) + "returns" + identifierList(m_returnParameterTypes);
@@ -4079,6 +4083,8 @@ string MagicType::richIdentifier() const
 		return "t_magic_transaction";
 	case Kind::ABI:
 		return "t_magic_abi";
+	case Kind::DB:
+		return "t_magic_db";
 	case Kind::MetaType:
 		solAssert(m_typeArgument, "");
 		return "t_magic_meta_type_" + m_typeArgument->richIdentifier();
@@ -4186,6 +4192,25 @@ MemberList::MemberMap MagicType::nativeMembers(ASTNode const*) const
 				FunctionType::Options::withArbitraryParameters()
 			)}
 		});
+	case Kind::DB:
+		return MemberList::MemberMap({
+			{"create",
+			 TypeProvider::function(
+				 strings{"string memory", "uint"}, strings{"uint"},
+				 FunctionType::Kind::DBCREATE, StateMutability::NonPayable)},
+			{"query",
+			 TypeProvider::function(
+				 strings{"string memory"}, strings{"uint"},
+				 FunctionType::Kind::DBQUERY, StateMutability::NonPayable)},
+			{"del",
+			 TypeProvider::function(
+				 strings{"string memory"}, strings{"uint"},
+				 FunctionType::Kind::DBDELETE, StateMutability::NonPayable)},
+			{"update",
+			 TypeProvider::function(
+				 strings{"string memory", "uint"}, strings{"uint"},
+				 FunctionType::Kind::DBUPDATE, StateMutability::NonPayable)}
+	});
 	case Kind::MetaType:
 	{
 		solAssert(
@@ -4246,6 +4271,8 @@ string MagicType::toString(bool _withoutDataLocation) const
 		return "tx";
 	case Kind::ABI:
 		return "abi";
+	case Kind::DB:
+		return "db";
 	case Kind::MetaType:
 		solAssert(m_typeArgument, "");
 		return "type(" + m_typeArgument->toString(_withoutDataLocation) + ")";
