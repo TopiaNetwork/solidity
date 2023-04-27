@@ -1468,7 +1468,7 @@ bool ExpressionCompiler::visit(FunctionCall const& _functionCall)
 			ArrayUtils(m_context).retrieveLength(*TypeProvider::stringMemory());
 			m_context << Instruction::SWAP1 << u256(0x20) << Instruction::ADD;
 
-			m_context << Instruction::DBCREATE;
+			m_context << Instruction::DBPUT;
 			break;
 		}
 		case FunctionType::Kind::DBQUERY:

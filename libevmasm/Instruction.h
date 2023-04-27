@@ -63,7 +63,7 @@ enum class Instruction: uint8_t
 
 	KECCAK256 = 0x20,		///< compute KECCAK-256 hash
 	// topia instruactions
-	DBCREATE = 0x21, // db create
+	DBPUT = 0x21, // db put
 	DBQUERY = 0x22, // db query
 	DBDELETE = 0x23, // db delete
 	DBUPDATE = 0x24, // db update
