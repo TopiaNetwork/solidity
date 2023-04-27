@@ -1241,6 +1241,10 @@ public:
 		Send, ///< CALL, but without data and gas
 		Transfer, ///< CALL, but without data and throws on error
 		KECCAK256, ///< KECCAK256
+		DBCREATE,
+		DBQUERY,
+		DBDELETE,
+		DBUPDATE,
 		Selfdestruct, ///< SELFDESTRUCT
 		Revert, ///< REVERT
 		ECRecover, ///< CALL to special contract for ecrecover
@@ -1651,6 +1655,7 @@ public:
 		Message, ///< "msg"
 		Transaction, ///< "tx"
 		ABI, ///< "abi"
+		DB, ///< "db"
 		MetaType ///< "type(...)"
 	};
 
