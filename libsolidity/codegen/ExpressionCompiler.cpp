@@ -1458,6 +1458,57 @@ bool ExpressionCompiler::visit(FunctionCall const& _functionCall)
 			}
 			break;
 		}
+		case FunctionType::Kind::DBCREATE:
+		{
+			solAssert(arguments.size() == 2, "");
+			Type const* argType = arguments.front()->annotation().type;
+			solAssert(argType, "");
+			arguments.back()->accept(*this);
+			arguments.front()->accept(*this);
+			ArrayUtils(m_context).retrieveLength(*TypeProvider::stringMemory());
+			m_context << Instruction::SWAP1 << u256(0x20) << Instruction::ADD;
+
+			m_context << Instruction::DBCREATE;
+			break;
+		}
+		case FunctionType::Kind::DBQUERY:
+		{
+			solAssert(arguments.size() == 1, "");
+			Type const* argType = arguments.front()->annotation().type;
+			solAssert(argType, "");
+			arguments.front()->accept(*this);
+			ArrayUtils(m_context).retrieveLength(*TypeProvider::stringMemory());
+			m_context << Instruction::SWAP1 << u256(0x20) << Instruction::ADD;
+
+			m_context << Instruction::DBQUERY;
+
+			break;
+		}
+		case FunctionType::Kind::DBDELETE:
+		{
+			solAssert(arguments.size() == 1, "");
+			Type const* argType = arguments.front()->annotation().type;
+			solAssert(argType, "");
+			arguments.front()->accept(*this);
+			ArrayUtils(m_context).retrieveLength(*TypeProvider::stringMemory());
+			m_context << Instruction::SWAP1 << u256(0x20) << Instruction::ADD;
+
+			m_context << Instruction::DBDELETE;
+			break;
+		}
+		case FunctionType::Kind::DBUPDATE:
+		{
+			solAssert(arguments.size() == 2, "");
+			Type const* argType = arguments.front()->annotation().type;
+			solAssert(argType, "");
+			arguments.back()->accept(*this);
+			arguments.front()->accept(*this);
+			ArrayUtils(m_context).retrieveLength(*TypeProvider::stringMemory());
+			m_context << Instruction::SWAP1 << u256(0x20) << Instruction::ADD;
+
+			m_context << Instruction::DBUPDATE;
+			break;
+		}
 		case FunctionType::Kind::GasLeft:
 			m_context << Instruction::GAS;
 			break;

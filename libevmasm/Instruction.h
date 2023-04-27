@@ -62,6 +62,12 @@ enum class Instruction: uint8_t
 	SAR,				///< bitwise SAR operation
 
 	KECCAK256 = 0x20,		///< compute KECCAK-256 hash
+	// topia instruactions
+	DBCREATE = 0x21, // db create
+	DBQUERY = 0x22, // db query
+	DBDELETE = 0x23, // db delete
+	DBUPDATE = 0x24, // db update
+	DBTEST = 0x25,
 
 	ADDRESS = 0x30,		///< get address of currently executing account
 	BALANCE,			///< get balance of the given account

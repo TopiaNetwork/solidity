@@ -61,6 +61,7 @@ int magicVariableToID(std::string const& _name)
 	else if (_name == "tx") return -26;
 	else if (_name == "type") return -27;
 	else if (_name == "this") return -28;
+	else if (_name == "db") return -29;
 	else
 		solAssert(false, "Unknown magic variable: \"" + _name + "\".");
 }
@@ -73,6 +74,7 @@ inline vector<shared_ptr<MagicVariableDeclaration const>> constructMagicVariable
 
 	return {
 		magicVarDecl("abi", TypeProvider::magic(MagicType::Kind::ABI)),
+		magicVarDecl("db", TypeProvider::magic(MagicType::Kind::DB)),
 		magicVarDecl("addmod", TypeProvider::function(strings{"uint256", "uint256", "uint256"}, strings{"uint256"}, FunctionType::Kind::AddMod, StateMutability::Pure)),
 		magicVarDecl("assert", TypeProvider::function(strings{"bool"}, strings{}, FunctionType::Kind::Assert, StateMutability::Pure)),
 		magicVarDecl("block", TypeProvider::magic(MagicType::Kind::Block)),
