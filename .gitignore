@@ -62,3 +62,4 @@ emscripten_build/
 Thumbs.db
 
 cmake-build-debug/
+upload/
